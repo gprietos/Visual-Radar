@@ -1,0 +1,28 @@
+detection:
+  weights_path:           'weights/best.pt'
+  confidence_threshold:   0.25
+  device:                 'cuda'
+
+depth:
+  checkpoint_path:        'weights/metric_depth.pt'
+  device:                 'cuda'
+
+camera:
+  width:                  1920
+  height:                 1080
+  fov_h_deg:              90.0
+  fov_v_deg:              null
+  principal_point:        null
+
+radar_view:
+  canvas_size:            720
+  max_range_m:            100.0
+  ring_interval_m:        20.0
+  point_radius_px:        6
+  show_legend:            true
+  show_labels:            false
+  background_image_path:  null
+  size_by:                'fixed'   # 'fixed', 'depth_confidence' (not implemented in v1)
+
+output:
+  output_dir:              'output/'
