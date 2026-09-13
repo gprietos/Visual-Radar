@@ -1,42 +1,20 @@
-"""Detection output shapes and the pluggable object detector contract."""
+"""Detection output shape for a single image.
 
-from abc import ABC, abstractmethod
+The detector itself is external to this project (imported and run
+wherever it's needed, e.g. `examples/run_offline_demo.py`) — this module
+only defines the shape its output takes so the rest of the pipeline can
+consume it.
+"""
+
 from dataclasses import dataclass
-from typing import Dict, List, Optional
 
 import torch
-
-from ..sources import Frame
 
 
 @dataclass
 class Detection:
-    bbox_xyxy: torch.Tensor
-    confidence: float
-    class_id: int
-    class_name: str
-    mask: Optional[torch.Tensor] = None
+    """Post-processed predictions for a SINGLE image."""
 
-
-@dataclass
-class DetectionOutput:
-    detections: List[Detection]
-    image_shape: tuple
-
-
-class BaseDetector(ABC):
-    """Adapter over a pretrained detection model (black box, not trained here)."""
-
-    @abstractmethod
-    def detect(self, frame: Frame) -> DetectionOutput:
-        """Run detection on a single frame's image."""
-        ...
-
-    @property
-    @abstractmethod
-    def class_names(self) -> Dict[int, str]:
-        """Class-id -> class-name taxonomy sourced from the underlying model.
-
-        Downstream code must read classes from here, never from a hardcoded list.
-        """
-        ...
+    boxes: torch.Tensor  # (N, 4) -> [x1, y1, x2, y2]
+    confs: torch.Tensor  # (N,)   -> confidence float [0.0, 1.0]
+    labels: torch.Tensor  # (N,)   -> class IDs (torch.int64)

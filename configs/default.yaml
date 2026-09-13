@@ -8,21 +8,22 @@ depth:
   device:                 'cuda'
 
 camera:
-  width:                  1920
-  height:                 1080
+  width:                  640
+  height:                 480
   fov_h_deg:              90.0
   fov_v_deg:              null
   principal_point:        null
 
 radar_view:
   canvas_size:            720
-  max_range_m:            100.0
-  ring_interval_m:        20.0
+  max_range_m:            10.0
+  ring_interval_m:        2.0
   point_radius_px:        6
   show_legend:            true
   show_labels:            false
   background_image_path:  null
   size_by:                'fixed'   # 'fixed', 'depth_confidence' (not implemented in v1)
+  ego_centric:            false     # false = world-referenced (absolute azimuth), true = camera-forward stays "up"
 
 output:
   output_dir:              'output/'

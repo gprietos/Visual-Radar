@@ -7,6 +7,10 @@ section into those args instead of passing the whole config around.
 """
 
 
+import yaml
+
+
 def load_config(path: str) -> dict:
     """Load a YAML config file into a plain nested dict. Wraps `yaml.safe_load`."""
-    raise NotImplementedError
+    with open(path) as f:
+        return yaml.safe_load(f)
