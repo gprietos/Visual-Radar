@@ -5,7 +5,7 @@ must be confirmed per frame source (e.g. Android/iOS sensor conventions
 differ from aerospace ZYX Tait-Bryan order). Getting this wrong doesn't
 crash, it silently produces wrong azimuths.
 
-`"aerospace_zyx"` (the only convention implemented in v1) fixes:
+`"rfu_yaw_pitch_roll"` (the only convention implemented in v1) fixes:
 - Units: yaw/pitch/roll in radians.
 - World frame: X = right/east, Y = forward/north (heading zero), Z = up.
 - Camera ray frame (pre-rotation): x_cam = right, y_cam = down,
@@ -67,14 +67,14 @@ def _rotation_y(roll: float) -> np.ndarray:
     )
 
 
-def rotation_matrix(yaw: float, pitch: float, roll: float, convention: str = "aerospace_zyx") -> np.ndarray:
+def rotation_matrix(yaw: float, pitch: float, roll: float, convention: str = "rfu_yaw_pitch_roll") -> np.ndarray:
     """Build the camera-ray-to-world rotation matrix R(yaw, pitch, roll).
 
     `convention` must match the actual sensor/source that produced the
     angles; do not assume the default is correct for a new source. Only
-    `"aerospace_zyx"` is implemented in v1.
+    `"rfu_yaw_pitch_roll"` is implemented in v1.
     """
-    if convention != "aerospace_zyx":
+    if convention != "rfu_yaw_pitch_roll":
         raise ValueError(f"Unsupported rotation convention: {convention!r}")
 
     return _rotation_z_compass(yaw) @ _rotation_x(pitch) @ _rotation_y(roll) @ _CAMERA_TO_BODY
